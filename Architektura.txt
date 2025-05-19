@@ -1,0 +1,31 @@
+Architektúra:
+
+2-vrstvová:
+- modely
+    - logika, napr. trieda SpracaUzivatelov (potrebuje závislosť/objekt databaza), doťahuje informácie (napr. celú tabuľku užívateľov)
+- kontrolery
+    - spojenie medzi užívateľom a logikov, len od modelu získa informácie a predá ich používateľovi
+
+3-vrstvová:
+- modely - logika, sql dotazy
+- views - šablóny, html súbory
+- controllers - sprostredkovatelia, kominukuje s užívateľmi, modelmi a views - oddeľujú logiku a zobrazenie
+
+Životný cyklus požiadavky na trojvrstvovú MVC aplikácii bude
+nasledujúce:
+
+	Router podľa URL zavolá kontrolér
+
+	Kontrolér sa opýta na dáta modeli
+
+	Dáta si kontrolér uloží
+
+	Dáta odovzdá View
+
+	View vyplní dátami HTML šablónu
+
+	Zostavená stránka je odoslaná užívateľovi
+
+Statika:
+Vieme, že statický atribút patrí triede, nie inštancii. A trieda je globálne viditeľná. Čo si uložíme do statických atribútov bude teda vždy prístupné odkiaľkoľvek.
+

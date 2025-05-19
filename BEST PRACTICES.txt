@@ -1,0 +1,91 @@
+BEST PRACTICES:
+
+Triedy, metódy, atribúty:
+
+Class (trieda):
+- definujú objekty
+- podstatné mená, jed.číslo
+- nie sú názvy dejov
+- začínajú veľkým písmenom: PascalCase (vytvorená inštancia triedy je s malým písmenom)
+: class CarManager
+
+Atributes (atribút):
+- sú premenné danej triedy (definované na začiatku classy)
+- podstatné alebo prídavné mená
+- camelCase alebo snake_case
+- ak ide o kolekciu (napr. List/Array), je názov v množnom čísle
+: private string name;
+: string[] users;
+
+Method (metódy):
+- ide o dej
+- teda názov je sloveso, prikazovací alebo opytovací tvar
+- camelCase alebo snake_case
+: private void GenerateData()
+: public bool IsEnabled()
+
+Parameter:
+- parameter metódy je premenná, preto sú pravidlá rovnaké ako pri atribútoch
+
+DRY:
+- dont repeat yourself
+
+Cykly:
+- nepoužívať umelé ukončenie cyklu (break;) ak je to možné
+
+KISS:
+- keep it simple, stupid
+
+SRP:
+- single responibility principle
+- každý kus kódu, napr. trieda, by mal byť zodpovedný za jednu konkrétnu vec
+
+SoC:
+- separation of concerns
+- oddeľuje typicky aplikačnú logiku od prezentácie alebo definíciu dát od ďalšej logiky
+- MVC, MVP, MVVM
+    Trieda ukladajúca dáta do súboru by nikdy nemala vypisovať niečo cez System.out.println().
+
+	Trieda pre výpočet vzdialenosti 2 bodov na mape by nikdy nemala nič	načítať z formulárového poľa.
+
+	Trieda obsahujúca texty na preklad programu do angličtiny by nikdy nemala obsahovať logiku, keď je určená na definíciu dát.
+
+Shy:
+- Keep it DRY, shy, and tell the other guy.
+- Komunikuje s ostatným kódom teda len keď je to nevyhnutné a nemá ani viac informácií o ostatných, než sám nevyhnutne potrebuje.
+
+LoD:
+- Law of Demeter
+- každý objekt by mal byť univerzálny a úplne oprostený od zvyšku aplikácie
+
+IoC:
+- Invesion of Control
+- objekty v aplikácii by mali byť riadené nejakým vyšším mechanizmom, ktorý vytvára inštancie tried a odovzdáva im potrebné závislosti
+
+SOLID:
+    Single responsibility principle,
+- každá trieda by mala byť zodpovedná iba za jednu oblasť systému
+
+	Open/closed principle,
+- triedy by mali byť otvorené pre rozšírenie, ale uzavreté pre zmenu
+
+	Liskov substitution principle,
+- predka by malo byť možné vždy nahradiť potomkom
+
+	Interface Segregation Principle,
+- radšej vytvárať a implementovať viacero špecifických rozhraní, než len niekoľko všeobecných
+
+	Dependency Inversion Principle.
+- sme záviseli od abstrakcií a nie od konkrétnej implementácie
+
+--------------------------------------
+Čo je Dependency Injection (DI)?
+Dependency Injection je dizajnový vzor, ktorý umožňuje vložiť (inject) závislosti (dependency) objektu namiesto toho, aby si ich sám vytváral.
+
+Inými slovami:
+
+Trieda neinicializuje (nevytvára) svoje vlastné závislosti (napr. databázové služby, logovanie atď.)
+
+Namiesto toho dostane tieto závislosti zvonku (napr. od frameworku).
+
+➡️ Výsledok: triedy sú viac testovateľné, udržiavateľné a menej závislé na konkrétnych implementáciách.

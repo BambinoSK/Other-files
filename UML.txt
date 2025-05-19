@@ -1,0 +1,44 @@
+UML - unified modeling language
+
+Používa sa: diagrams.net, DRAW.IO (Webb app), modelio.org (desktop), Visio (MS desktop app)
+
+Use Case diagramy:
+- pohľad na systém z pohľadu užívateľa
+
+FURPS is an acronym that stands for functionality, usability, reliability, performance, and security. 
+The “F” letter in FURPS refers to the functional requirements that have defined previously and the remaining letters describe the nonfunctional requirements.
+
+Use Case specification
+Jednoduchý prípad:
+
+Krátky popis:
+UC vykoná/vypočíta zadanie podľa zadaných čísel a zvoleného úkonu.
+- skontroluje vstupy
+
+Aktéri:
+užívateľ
+kalkulačka - system
+
+Podmienky na spustenie:
+v oboch poliach musí byť zadané číslo
+
+Podmienky na ukončenie:
+ak ide o delenie, nesme sa deliť nulov
+
+Základný tok:
+užívateľ vyplní oba polia a vyberie mat.úkon
+systém skontroluje polia a vypočíta zadanie
+- používateľ klikne na vypočítať
+- system parsene vstupy ako číslo
+- system uskutocni kalkulaciu
+- system zobrazi vysledok na displeji
+
+Alternatívny tok:
+ak je vybrane delenie, a deli sa 0 tak vypocet neprebehne, a system vyzvme na opravu
+- ak vstup nie je cislo, vyzve uzivatela na opravu
+
+Doménový model:
+Class diagram:
+Vzťahy:
+- asociácia : vzťah medzi dvomi (alebo viacerými) entitami (triedami), bez šípok : odkaz si uchovávajú obe entity
+- agregácia : 

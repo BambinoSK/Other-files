@@ -1,0 +1,29 @@
+Bootstrap
+
+Rôzne šablóny zadarmo na stiahnutie:
+https://startbootstrap.com/
+
+Material design pre bootstrap:
+https://mdbootstrap.com/
+
+Stránka bootstrap-u:
+https://getbootstrap.com/
+
+Bootstrap poskytuje triedy .h1 až .h6:
+    <h1 class="h1">H1</h1>
+    <h1 class="h2">H2</h1>
+    <h1 class="h3">H3</h1>
+    <h1 class="h4">H4</h1>
+    <h1 class="h5">H5</h1>
+    <h1 class="h6">H6</h1>
+Ak potrebujeme ešte výraznejší text, ktorý zo stránky doslova vyčnieva, použijeme triedy .display-1 až .display-6:
+    <h1 class="display-1">H1 + display-1</h1>
+    <h1 class="display-2">H1 + display-2</h1>
+    <h1 class="display-3">H1 + display-3</h1>
+    <h1 class="display-4">H1 + display-4</h1>
+
+Ak nás naopak trápi dlhý text, môžeme ho skrátiť pomocou triedy .text-truncate. Keď dĺžka textu prekročí šírku rodičovského elementu, zobrazia sa na konci tri bodky. Vnútorne používa
+trieda CSS 3 vlastnosť text-overflow s hodnotou ellipsis. Skracovanie textu funguje iba s elementmi, ktoré majú vlastnosť display nastavenú na block alebo inline-block.
+
+Zabraňuje pretečeniu obrázku - obrázok sa sám zmenšuje pri zmene veľkosti stránky: (obrázok musí byť vo wwwroot adresári)
+<img src="~/Images/Prima_Banka_logo_text_CORRECT.png" alt="Primabanka" class="img-fluid">

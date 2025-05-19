@@ -1,0 +1,9 @@
+ASP.NET Core MVC:
+Technológia je založená na architektúre klient-server. Aplikácia v ASP.NET je teda program, ktorého výstupom je HTML stránka. ASP.NET beží na strane servera.
+
+3 priečinky - MVC:
+- Models
+- Views
+- Controllers
+
+Meno kontrolera ma vzdy koncit na Controller.
