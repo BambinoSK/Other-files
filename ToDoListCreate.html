@@ -1,0 +1,52 @@
+@model ToDoList3.Models.ToDoList
+@{
+    ViewData["Title"] = "Pridanie ToDoList-u";
+    var returnUrl = ViewData["ReturnUrl"] as string;
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-list-alt me-2"></i>Pridanie zoznamu úloh</h3>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create">
+                <input type="hidden" name="returnUrl" value="@returnUrl" />
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Názov zoznamu" />
+                            <label asp-for="Name">Názov zoznamu</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea asp-for="Description" class="form-control" style="height: 150px;" placeholder="Popis zoznamu"></textarea>
+                            <label asp-for="Description">Popis zoznamu</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Späť na zoznam
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus me-1"></i> Pridať zoznam
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

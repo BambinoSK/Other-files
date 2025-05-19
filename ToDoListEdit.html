@@ -1,0 +1,100 @@
+@model ToDoList3.Models.ToDoList
+@{
+    ViewData["Title"] = "Upraviť zoznam úloh";
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-edit me-2"></i>Upraviť zoznam úloh</h3>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Edit">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                <input type="hidden" asp-for="Id" />
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Názov zoznamu" />
+                            <label asp-for="Name">Názov zoznamu</label>
+                            <span asp-validation-for="Name" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea asp-for="Description" class="form-control" style="height: 150px;" placeholder="Popis zoznamu"></textarea>
+                            <label asp-for="Description">Popis zoznamu</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Späť na zoznam
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-save me-1"></i> Uložiť zmeny
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+    
+    <!-- Invite Users Section -->
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-info text-white">
+            <h3 class="mb-0"><i class="fas fa-user-plus me-2"></i>Pozvať používateľa</h3>
+        </div>
+        <div class="card-body p-4">
+            <form asp-controller="ToDoListInvites" asp-action="SendInvite" method="post">
+                <input type="hidden" name="toDoListId" value="@Model.Id" />
+                
+                <div class="row mb-3">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input type="email" name="inviteEmail" id="inviteEmail" class="form-control" placeholder="Email používateľa" required />
+                            <label for="inviteEmail">Email používateľa</label>
+                        </div>
+                        <div class="form-text text-muted mt-1">
+                            <i class="fas fa-info-circle me-1"></i> Zadajte email používateľa, ktorého chcete pozvať do zdieľaného zoznamu úloh.
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="mt-3">
+                    <button type="submit" class="btn btn-info text-white">
+                        <i class="fas fa-paper-plane me-1"></i> Odoslať pozvánku
+                    </button>
+                </div>
+                
+                @if (TempData["InviteError"] != null)
+                {
+                    <div class="alert alert-danger mt-3">
+                        <i class="fas fa-exclamation-circle me-2"></i>@TempData["InviteError"]
+                    </div>
+                }
+                
+                @if (TempData["InviteSuccess"] != null)
+                {
+                    <div class="alert alert-success mt-3">
+                        <i class="fas fa-check-circle me-2"></i>@TempData["InviteSuccess"]
+                        <div class="mt-2">
+                            <a asp-controller="Account" asp-action="Profile" class="btn btn-sm btn-outline-success">
+                                <i class="fas fa-list me-1"></i> Prehľad odoslaných pozvánok
+                            </a>
+                        </div>
+                    </div>
+                }
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+}

@@ -1,0 +1,93 @@
+@model RegisterViewModel
+@{
+    ViewData["Title"] = "Registrácia";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-6 col-lg-5">
+            <div class="card shadow-sm border-0 rounded-lg">
+                <div class="card-header bg-primary text-white text-center py-3">
+                    <h4 class="mb-0">Registrácia</h4>
+                </div>
+                <div class="card-body p-4">
+                    <form class="needs-validation" asp-route-returnUrl="@ViewData["ReturnUrl"]" novalidate>
+                        <div asp-validation-summary="All" class="text-danger mb-3 small"></div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Name" class="form-control" placeholder="Meno" />
+                            <label asp-for="Name"></label>
+                            <span asp-validation-for="Name" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Surname" class="form-control" placeholder="Priezvisko" />
+                            <label asp-for="Surname"></label>
+                            <span asp-validation-for="Surname" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="CustomUserName" class="form-control" placeholder="Používateľské meno" />
+                            <label asp-for="CustomUserName"></label>
+                            <span asp-validation-for="CustomUserName" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Email" class="form-control" placeholder="name@example.com" autocomplete="email" />
+                            <label asp-for="Email"></label>
+                            <span asp-validation-for="Email" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="Password" class="form-control" placeholder="Heslo" autocomplete="new-password" />
+                            <label asp-for="Password"></label>
+                            <span asp-validation-for="Password" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="form-floating mb-3">
+                            <input asp-for="ConfirmPassword" class="form-control" placeholder="Potvrďte heslo" autocomplete="new-password" />
+                            <label asp-for="ConfirmPassword"></label>
+                            <span asp-validation-for="ConfirmPassword" class="text-danger small"></span>
+                        </div>
+                        
+                        <div class="d-grid gap-2">
+                            <button type="submit" class="btn btn-primary py-2">Registrovať</button>
+                        </div>
+                    </form>
+                </div>
+                <div class="card-footer bg-light text-center py-3">
+                    <div class="small">
+                        Máte už účet? 
+                        <a asp-action="Login" asp-route-returnUrl="@ViewData["ReturnUrl"]" class="text-decoration-none">
+                            Prihláste sa
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{
+        await Html.RenderPartialAsync("_ValidationScriptsPartial");
+    }
+    <script>
+        // Add custom validation styling on submit
+        (function() {
+            'use strict';
+            window.addEventListener('load', function() {
+                var forms = document.getElementsByClassName('needs-validation');
+                var validation = Array.prototype.filter.call(forms, function(form) {
+                    form.addEventListener('submit', function(event) {
+                        if (form.checkValidity() === false) {
+                            event.preventDefault();
+                            event.stopPropagation();
+                        }
+                        form.classList.add('was-validated');
+                    }, false);
+                });
+            }, false);
+        })();
+    </script>
+}

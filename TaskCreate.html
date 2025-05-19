@@ -1,0 +1,88 @@
+@model ToDoList3.Models.Task
+@{
+    ViewData["Title"] = "Pridanie úlohy";
+    var hasToDoLists = ViewData["HasToDoLists"] as bool? ?? false;
+}
+
+<div class="container py-4">
+    <div class="card shadow-sm border-0">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-plus-circle me-2"></i>Pridanie úlohy</h3>
+        </div>
+        <div class="card-body p-4">
+            <form asp-action="Create">
+                <div asp-validation-summary="ModelOnly" class="alert alert-danger" role="alert"></div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <label asp-for="ToDoListId" class="form-label">Zoznam úloh</label>
+                        <div class="d-flex align-items-center gap-2">
+                            <select asp-for="ToDoListId" class="form-select" asp-items="ViewBag.ToDoListId"></select>
+                            @if (!hasToDoLists)
+                            {
+                                <a asp-controller="ToDoLists" asp-action="Create" asp-route-returnUrl="@Url.Action("Create", "Tasks")" class="btn btn-success">
+                                    <i class="fas fa-plus me-1"></i> Vytvoriť zoznam
+                                </a>
+                            }
+                        </div>
+                        <span asp-validation-for="ToDoListId" class="text-danger"></span>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating mb-3">
+                            <input asp-for="Title" class="form-control" placeholder="Názov úlohy" />
+                            <label asp-for="Title">Názov úlohy</label>
+                            <span asp-validation-for="Title" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <textarea asp-for="Description" class="form-control" style="height: 150px;" placeholder="Popis úlohy"></textarea>
+                            <label asp-for="Description">Popis úlohy</label>
+                            <span asp-validation-for="Description" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="row mb-4">
+                    <div class="col-md-12">
+                        <div class="form-floating">
+                            <input asp-for="DueDate" class="form-control datepicker" placeholder="Termín" />
+                            <label asp-for="DueDate">Termín</label>
+                            <span asp-validation-for="DueDate" class="text-danger"></span>
+                        </div>
+                    </div>
+                </div>
+                
+                <div class="d-flex justify-content-between mt-4">
+                    <a asp-action="Index" class="btn btn-outline-secondary">
+                        <i class="fas fa-arrow-left me-1"></i> Späť na zoznam
+                    </a>
+                    <button type="submit" class="btn btn-success">
+                        <i class="fas fa-plus me-1"></i> Pridať úlohu
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+
+@section Scripts {
+    @{await Html.RenderPartialAsync("_ValidationScriptsPartial");}
+    <script>
+        // Initialize datepicker
+        $(function() {
+            $('.datepicker').datepicker({
+                format: 'dd.mm.yyyy',
+                autoclose: true,
+                todayHighlight: true,
+                language: 'sk'
+            });
+        });
+    </script>
+}

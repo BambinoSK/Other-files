@@ -1,0 +1,251 @@
+@model ToDoList3.Models.ProfileViewModel
+
+@{
+    ViewData["Title"] = "Profil používateľa";
+}
+
+<div class="container py-4">
+    @if (TempData["Success"] != null)
+    {
+        <div class="alert alert-success alert-dismissible fade show" role="alert">
+            <i class="fas fa-check-circle me-2"></i>@TempData["Success"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    @if (TempData["Error"] != null)
+    {
+        <div class="alert alert-danger alert-dismissible fade show" role="alert">
+            <i class="fas fa-exclamation-circle me-2"></i>@TempData["Error"]
+            <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button>
+        </div>
+    }
+
+    <!-- User Profile Information -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-primary text-white">
+            <h3 class="mb-0"><i class="fas fa-user me-2"></i>Profil používateľa</h3>
+        </div>
+        <div class="card-body p-4">
+            <div class="row">
+                <div class="col-md-8">
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">Email</h6>
+                        <p class="fs-5">@Model.Email</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">@Html.DisplayNameFor(model => model.UserName)</h6>
+                        <p class="fs-5">@Model.UserName</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">@Html.DisplayNameFor(model => model.Name)</h6>
+                        <p class="fs-5">@Model.Name</p>
+                    </div>
+                    <div class="mb-3">
+                        <h6 class="text-muted mb-2">@Html.DisplayNameFor(model => model.Surname)</h6>
+                        <p class="fs-5">@Model.Surname</p>
+                    </div>
+                </div>
+                <div class="col-md-4 d-flex align-items-center justify-content-center">
+                    <a asp-action="EditProfile" class="btn btn-primary btn-lg">
+                        <i class="fas fa-user-edit me-2"></i>Upraviť profil
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+    
+    <!-- Received Invites Section -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-info text-white">
+            <h3 class="mb-0"><i class="fas fa-inbox me-2"></i>Prijaté pozvánky</h3>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.ReceivedInvites.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-4">ToDoList</th>
+                                <th>Od</th>
+                                <th>Stav</th>
+                                <th class="text-center">Akcia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var invite in Model.ReceivedInvites)
+                            {
+                                <tr>
+                                    <td class="px-4">@invite.ToDoList?.Name</td>
+                                    <td>@invite.Inviter?.Email</td>
+                                    <td>
+                                        @switch (invite.Status)
+                                        {
+                                            case InviteStatus.Pending:
+                                                <span class="badge bg-warning text-dark"><i class="fas fa-clock me-1"></i>Čaká na odpoveď</span>
+                                                break;
+                                            case InviteStatus.Accepted:
+                                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>Prijaté</span>
+                                                break;
+                                            case InviteStatus.Declined:
+                                                <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Odmietnuté</span>
+                                                break;
+                                            case InviteStatus.Left:
+                                                <span class="badge bg-secondary"><i class="fas fa-sign-out-alt me-1"></i>Opustené</span>
+                                                break;
+                                            case InviteStatus.Removed:
+                                                <span class="badge bg-secondary"><i class="fas fa-user-minus me-1"></i>Odstránené</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (invite.Status == InviteStatus.Pending)
+                                        {
+                                            <div class="btn-group" role="group">
+                                                <form asp-action="RespondToInvite" asp-controller="ToDoListInvites" method="post" class="d-inline">
+                                                    <input type="hidden" name="inviteId" value="@invite.Id" />
+                                                    <input type="hidden" name="accept" value="true" />
+                                                    <button type="submit" class="btn btn-success btn-sm">
+                                                        <i class="fas fa-check me-1"></i>Prijať
+                                                    </button>
+                                                </form>
+                                                <form asp-action="RespondToInvite" asp-controller="ToDoListInvites" method="post" class="d-inline ms-2">
+                                                    <input type="hidden" name="inviteId" value="@invite.Id" />
+                                                    <input type="hidden" name="accept" value="false" />
+                                                    <button type="submit" class="btn btn-danger btn-sm">
+                                                        <i class="fas fa-times me-1"></i>Odmietnuť
+                                                    </button>
+                                                </form>
+                                            </div>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                @if (Model.ReceivedInvitesTotalPages > 1)
+                {
+                    <div class="d-flex justify-content-center py-3">
+                        <nav>
+                            <ul class="pagination">
+                                @for (int i = 1; i <= Model.ReceivedInvitesTotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.ReceivedInvitesPage ? "active" : "")">
+                                        <a class="page-link" asp-action="Profile" asp-route-receivedPage="@i" asp-route-sentPage="@Model.SentInvitesPage">@i</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center p-4">
+                    <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                    <p class="mb-0">Nemáte žiadne prijaté pozvánky.</p>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <!-- Sent Invites Section -->
+    <div class="card shadow-sm border-0 mb-4">
+        <div class="card-header bg-secondary text-white">
+            <h3 class="mb-0"><i class="fas fa-paper-plane me-2"></i>Odoslané pozvánky</h3>
+        </div>
+        <div class="card-body p-0">
+            @if (Model.SentInvites.Any())
+            {
+                <div class="table-responsive">
+                    <table class="table table-hover table-striped mb-0">
+                        <thead class="table-light">
+                            <tr>
+                                <th class="px-4">ToDoList</th>
+                                <th>Pre</th>
+                                <th>Stav</th>
+                                <th class="text-center">Akcia</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @foreach (var invite in Model.SentInvites)
+                            {
+                                <tr>
+                                    <td class="px-4">@invite.ToDoList?.Name</td>
+                                    <td>@invite.InviteeEmail</td>
+                                    <td>
+                                        @switch (invite.Status)
+                                        {
+                                            case InviteStatus.Pending:
+                                                <span class="badge bg-warning text-dark"><i class="fas fa-clock me-1"></i>Čaká na odpoveď</span>
+                                                break;
+                                            case InviteStatus.Accepted:
+                                                <span class="badge bg-success"><i class="fas fa-check me-1"></i>Prijaté</span>
+                                                break;
+                                            case InviteStatus.Declined:
+                                                <span class="badge bg-danger"><i class="fas fa-times me-1"></i>Odmietnuté</span>
+                                                break;
+                                            case InviteStatus.Canceled:
+                                                <span class="badge bg-danger"><i class="fas fa-ban me-1"></i>Zrušené</span>
+                                                break;
+                                            case InviteStatus.Left:
+                                                <span class="badge bg-secondary"><i class="fas fa-sign-out-alt me-1"></i>Opustené</span>
+                                                break;
+                                            case InviteStatus.Removed:
+                                                <span class="badge bg-secondary"><i class="fas fa-user-minus me-1"></i>Odstránené</span>
+                                                break;
+                                        }
+                                    </td>
+                                    <td class="text-center">
+                                        @if (invite.Status == InviteStatus.Pending)
+                                        {
+                                            <form asp-action="CancelInvite" asp-controller="ToDoListInvites" method="post">
+                                                <input type="hidden" name="inviteId" value="@invite.Id" />
+                                                <button type="submit" class="btn btn-danger btn-sm">
+                                                    <i class="fas fa-ban me-1"></i>Zrušiť
+                                                </button>
+                                            </form>
+                                        }
+                                    </td>
+                                </tr>
+                            }
+                        </tbody>
+                    </table>
+                </div>
+                
+                @if (Model.SentInvitesTotalPages > 1)
+                {
+                    <div class="d-flex justify-content-center py-3">
+                        <nav>
+                            <ul class="pagination">
+                                @for (int i = 1; i <= Model.SentInvitesTotalPages; i++)
+                                {
+                                    <li class="page-item @(i == Model.SentInvitesPage ? "active" : "")">
+                                        <a class="page-link" asp-action="Profile" asp-route-receivedPage="@Model.ReceivedInvitesPage" asp-route-sentPage="@i">@i</a>
+                                    </li>
+                                }
+                            </ul>
+                        </nav>
+                    </div>
+                }
+            }
+            else
+            {
+                <div class="text-center p-4">
+                    <i class="fas fa-paper-plane fa-3x text-muted mb-3"></i>
+                    <p class="mb-0">Nemáte žiadne odoslané pozvánky.</p>
+                </div>
+            }
+        </div>
+    </div>
+    
+    <!-- Footer Navigation -->
+    <div class="mt-4">
+        <a asp-action="Index" asp-controller="Home" class="btn btn-primary">
+            <i class="fas fa-home me-1"></i> Hlavná stránka
+        </a>
+    </div>
+</div>
