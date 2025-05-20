@@ -1,0 +1,42 @@
+@{
+    ViewData["Title"] = "Prístup zamietnutý";
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-md-8 col-lg-6">
+            <div class="card shadow-sm border-0 rounded-lg text-center">
+                <div class="card-header bg-warning text-dark py-3">
+                    <h4 class="mb-0">403 - @ViewData["Title"]</h4>
+                </div>
+                <div class="card-body p-5">
+                    <div class="mb-4">
+                        <div class="display-1 text-warning mb-3">
+                            <i class="bi bi-shield-lock-fill"></i>
+                        </div>
+                        <h2 class="h4 mb-3">Nemáte prístup!</h2>
+                        <p class="lead mb-4">Na zobrazenie tejto stránky nemáte povolenie.</p>
+                        <hr class="my-4">
+                        <p class="text-muted">Ak si myslíte, že by ste mali mať prístup k tejto stránke, obráťte sa na administrátora.</p>
+                    </div>
+                    <div class="d-grid gap-2">
+                        <a asp-action="Index" asp-controller="Home" class="btn btn-primary py-2">
+                            <i class="bi bi-house-door"></i> Späť na úvodnú stránku
+                        </a>
+                    </div>
+                </div>
+                <div class="card-footer bg-light py-3">
+                    <div class="d-flex justify-content-center gap-3">
+                        <a asp-action="Login" asp-controller="Account" class="text-decoration-none">
+                            <i class="bi bi-box-arrow-in-right"></i> Prihlásiť sa
+                        </a>
+                        <span class="text-muted">|</span>
+                        <a href="javascript:history.back()" class="text-decoration-none">
+                            <i class="bi bi-arrow-left"></i> Vrátiť sa späť
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

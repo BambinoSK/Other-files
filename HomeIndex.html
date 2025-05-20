@@ -1,0 +1,166 @@
+@using Microsoft.AspNetCore.Identity
+@using Microsoft.AspNetCore.Mvc.Rendering
+@using Microsoft.AspNetCore.Mvc.RazorPages
+@using Microsoft.AspNetCore.Authorization
+@inject SignInManager<ApplicationUser> SignInManager
+@{
+    ViewData["Title"] = "Úvodná stránka";
+    bool isAuthenticated = User.Identity?.IsAuthenticated ?? false;
+}
+
+<div class="container py-5">
+    <div class="row justify-content-center">
+        <div class="col-lg-10">
+            <div class="card shadow-sm border-0 rounded-lg overflow-hidden">
+                <div class="card-header bg-primary text-white text-center py-4">
+                    <h1 class="display-5 mb-0">ToDoList Web App</h1>
+                </div>
+                
+                <div class="card-body p-4 p-md-5">
+                    <!-- Hero Section -->
+                    <div class="text-center mb-5">
+                        <div class="display-1 text-primary mb-4">
+                            <i class="bi bi-check2-square"></i>
+                        </div>
+                        <p class="lead">
+                            Efektívny nástroj pre organizáciu vašich úloh a projektov.
+                        </p>
+                    </div>
+                    
+                    <!-- Features Section -->
+                    <div class="row mb-5">
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="bi bi-list-task fs-1"></i>
+                                    </div>
+                                    <h3 class="h4">Organizácia úloh</h3>
+                                    <p class="text-muted">
+                                        Vytvárajte a spravujte viacero ToDoLists. Pridávajte, upravujte a sledujte úlohy s prehľadným rozhraním.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="bi bi-people fs-1"></i>
+                                    </div>
+                                    <h3 class="h4">Spolupráca</h3>
+                                    <p class="text-muted">
+                                        Zdieľajte vaše ToDoListy s ostatnými používateľmi pre efektívnu tímovú spoluprácu na projektoch.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="bi bi-calendar-check fs-1"></i>
+                                    </div>
+                                    <h3 class="h4">Termíny a upozornenia</h3>
+                                    <p class="text-muted">
+                                        Nastavte termíny dokončenia pre vaše úlohy. Označujte úlohy ako dokončené a sledujte svoj pokrok.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-4">
+                            <div class="card h-100 border-0 shadow-sm">
+                                <div class="card-body p-4">
+                                    <div class="text-primary mb-3">
+                                        <i class="bi bi-graph-up fs-1"></i>
+                                    </div>
+                                    <h3 class="h4">Zvýšte produktivitu</h3>
+                                    <p class="text-muted">
+                                        Udržte si prehľad o svojich povinnostiach a nikdy nezmeškajte žiadny termín s naším prehľadným systémom.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- How It Works Section -->
+                    <div class="row mb-5">
+                        <div class="col-12">
+                            <h2 class="text-center mb-4">Ako to funguje</h2>
+                            <div class="d-flex flex-column flex-md-row justify-content-center text-center gap-3">
+                                <div class="p-3">
+                                    <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 60px; height: 60px;">
+                                        <span class="h4 mb-0">1</span>
+                                    </div>
+                                    <h5>Vytvorte zoznam</h5>
+                                    <p class="text-muted small">Založte nový ToDoList pre váš projekt alebo aktivitu</p>
+                                </div>
+                                <div class="d-none d-md-flex align-items-center">
+                                    <i class="bi bi-arrow-right fs-3 text-muted"></i>
+                                </div>
+                                <div class="p-3">
+                                    <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 60px; height: 60px;">
+                                        <span class="h4 mb-0">2</span>
+                                    </div>
+                                    <h5>Pridajte úlohy</h5>
+                                    <p class="text-muted small">Vytvorte úlohy s popismi a termínmi dokončenia</p>
+                                </div>
+                                <div class="d-none d-md-flex align-items-center">
+                                    <i class="bi bi-arrow-right fs-3 text-muted"></i>
+                                </div>
+                                <div class="p-3">
+                                    <div class="bg-light rounded-circle d-inline-flex justify-content-center align-items-center mb-3" style="width: 60px; height: 60px;">
+                                        <span class="h4 mb-0">3</span>
+                                    </div>
+                                    <h5>Organizujte a sledujte</h5>
+                                    <p class="text-muted small">Sledujte svoj pokrok a označujte dokončené úlohy</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Call to Action -->
+                    <div class="text-center mb-4">
+                        @if (isAuthenticated)
+                        {
+                            <div class="d-grid gap-3 col-md-8 mx-auto">
+                                <a class="btn btn-success btn-lg py-3" asp-controller="Tasks" asp-action="Index">
+                                    <i class="bi bi-list-check"></i> Prejsť na úlohy
+                                </a>
+                                <div class="d-flex gap-2">
+                                    <a asp-controller="Tasks" asp-action="Create" class="btn btn-outline-primary flex-grow-1">
+                                        <i class="bi bi-plus-circle"></i> Vytvoriť úlohu
+                                    </a>
+                                    <a asp-controller="ToDoLists" asp-action="Create" class="btn btn-primary flex-grow-1">
+                                        <i class="bi bi-folder-plus"></i> Vytvoriť ToDoList
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                        else
+                        {
+                            <div class="p-4 bg-light rounded-3 mb-4">
+                                <h3>Začnite organizovať svoj život už dnes!</h3>
+                                <p class="text-muted">Zaregistrujte sa a vytvorte svoj prvý ToDoList zadarmo.</p>
+                                <div class="d-grid gap-2 col-md-6 mx-auto">
+                                    <a asp-controller="Account" asp-action="Register" class="btn btn-primary btn-lg">
+                                        <i class="bi bi-person-plus"></i> Registrovať sa
+                                    </a>
+                                    <a asp-controller="Account" asp-action="Login" class="btn btn-outline-secondary">
+                                        <i class="bi bi-box-arrow-in-right"></i> Prihlásiť sa
+                                    </a>
+                                </div>
+                            </div>
+                        }
+                    </div>
+                </div>
+                
+                <div class="card-footer bg-light py-3 text-center">
+                    <p class="text-muted mb-0">
+                        Udržujte svoj život organizovaný a nikdy nezmeškajte žiadny termín s ToDoList Web App!
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
